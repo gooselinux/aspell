@@ -1,0 +1,81 @@
+--- aspell-0.60.5/Makefile.in.fc	2006-12-19 12:03:37.000000000 +0100
++++ aspell-0.60.5/Makefile.in	2007-01-02 13:32:03.000000000 +0100
+@@ -341,6 +341,7 @@
+ 
+ # These are needed due to a bug in Automake
+ pkgdatadir = @pkgdatadir@
++pkgdatadir2 = @pkgdatadir2@
+ pkglibdir = @pkglibdir@
+ ACLOCAL = @ACLOCAL@
+ AMTAR = @AMTAR@
+@@ -1907,7 +1908,7 @@
+ 	cd gen; perl mk-dirs_h.pl ${prefix} ${pkgdatadir} ${pkglibdir}  ${sysconfdir} >  dirs.h
+ 
+ scripts/run-with-aspell: scripts/run-with-aspell.create
+-	sh ${srcdir}/scripts/run-with-aspell.create ${pkgdatadir} > scripts/run-with-aspell
++	sh ${srcdir}/scripts/run-with-aspell.create ${pkgdatadir2} > scripts/run-with-aspell
+ 	chmod 755 scripts/run-with-aspell
+ @PSPELL_COMPATIBILITY_TRUE@scripts/pspell-config: scripts/mkconfig
+ @PSPELL_COMPATIBILITY_TRUE@	sh ${srcdir}/scripts/mkconfig ${VERSION} ${datadir} ${pkgdatadir}
+--- aspell-0.60.5/configure.fc	2006-12-19 12:03:38.000000000 +0100
++++ aspell-0.60.5/configure	2007-01-02 13:33:16.000000000 +0100
+@@ -844,6 +844,7 @@
+ MAINT
+ pkgdocdir
+ pkgdatadir
++pkgdatadir2
+ pkglibdir
+ CXX
+ CXXFLAGS
+@@ -2638,23 +2639,25 @@
+ # Check whether --enable-pkgdatadir was given.
+ if test "${enable_pkgdatadir+set}" = set; then
+   enableval=$enable_pkgdatadir; pkgdatadir=$enable_pkgdatadir
++  pkgdatadir2=$enable_pkgdatadir
+ fi
+ 
+ 
+ # Check whether --enable-pkgdata-dir was given.
+ if test "${enable_pkgdata_dir+set}" = set; then
+   enableval=$enable_pkgdata_dir; pkgdatadir=$enable_dict_dir
++  pkgdatadir2=$enable_dict_dir
+ fi
+ 
+ 
+ if test "$pkgdatadir" = "undef"
+ then
+   pkgdatadir=\${libdir}/aspell-0.60
++  pkgdatadir2=${exec_prefix}/lib/aspell-0.60:${exec_prefix}/lib64/aspell-0.60 
+ fi
+ 
+ 
+ 
+-
+ pkglibdir=undef
+ # Check whether --enable-pkglibdir was given.
+ if test "${enable_pkglibdir+set}" = set; then
+@@ -24186,6 +24189,7 @@
+ 
+ 
+ ac_delim='%!_!# '
++
+ for ac_last_try in false false false false false :; do
+   cat >conf$$subs.sed <<_ACEOF
+ SHELL!$SHELL$ac_delim
+@@ -24264,6 +24268,7 @@
+ MAINT!$MAINT$ac_delim
+ pkgdocdir!$pkgdocdir$ac_delim
+ pkgdatadir!$pkgdatadir$ac_delim
++pkgdatadir2!$pkgdatadir2$ac_delim
+ pkglibdir!$pkglibdir$ac_delim
+ CXX!$CXX$ac_delim
+ CXXFLAGS!$CXXFLAGS$ac_delim
+@@ -24287,7 +24292,7 @@
+ CCDEPMODE!$CCDEPMODE$ac_delim
+ _ACEOF
+ 
+-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
++  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 98; then
+     break
+   elif $ac_last_try; then
+     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
